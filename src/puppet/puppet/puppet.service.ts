@@ -21,9 +21,18 @@ export class PuppetService {
     return page;
   }
 
+  async waitForPageLoad(page: Page) {
+    await page.waitForNavigation({
+      waitUntil: 'networkidle0'
+    });
+  }
+
   async getElement (page: Page, selector: string): Promise<ElementHandle>{
+    const ele = await page.$(selector);
+    if (ele) return ele;
+
     await page.waitForSelector(selector);
-    return page.$(selector)
+    return page.$(selector);
   }
 
   async getChildrenElements (ele: ElementHandle, selector: string): Promise<ElementHandle[]>{
