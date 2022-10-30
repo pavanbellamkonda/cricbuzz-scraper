@@ -14,9 +14,11 @@ export class BallByBallService {
     return this.getFullCommentary(page);
   }
 
-  private async getFullCommentary(page) {
+  private async getFullCommentary(page: Page) {
     await this.clickOnFullcommentary(page);
-    return this.clickOnInningsButtons(page);
+    const inningsResp = await this.clickOnInningsButtons(page);
+    await page.close();
+    return inningsResp;
   }
 
   private async clickOnFullcommentary(page: Page) {
